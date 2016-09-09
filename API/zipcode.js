@@ -3,7 +3,7 @@
 const fs = require('fs');
 const http = require('http');
 
-console.log('郵便番号を入力して ctrl + D')
+console.log('郵便番号を入力して Enter -> ctrl + D')
 const input = fs.readFileSync('/dev/stdin', 'utf8');
 getAdrresJson(input);
 
@@ -20,6 +20,9 @@ function getAdrresJson(zipcode) {
 
         res.on('end', function() {
             const addressJson = JSON.parse(body);
+            if(addressJson.results == null) {
+                throw new Error('入力しなおしてください');
+            }
             addressJson.results.forEach((result) => {
                 console.log(result.address1,result.address2,result.address3);
             });
