@@ -8,7 +8,7 @@ const input = fs.readFileSync('/dev/stdin', 'utf8');
 getAdrresJson(input);
 
 function getAdrresJson(zipcode) {
-    const url = 'http://zipcloud.ibsnet.co.jp/api/search?zipcode=' + zipcode;
+    const url = `http://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`;
     http.get(url, function(res) {
 
         let body = '';
@@ -20,11 +20,11 @@ function getAdrresJson(zipcode) {
 
         res.on('end', function() {
             const addressJson = JSON.parse(body);
-            if(addressJson.results == null) {
-                throw new Error('入力しなおしてください');
+            if (addressJson.results == null) {
+                throw new Error('値が不正です。');
             }
             addressJson.results.forEach((result) => {
-                console.log(result.address1,result.address2,result.address3);
+                console.log(result.address1, result.address2, result.address3);
             });
         });
 
